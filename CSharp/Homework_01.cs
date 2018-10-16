@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CSharp
 {
@@ -6,13 +10,42 @@ namespace CSharp
     {
         static void Main(string[] args)
         {
-            //求这两组数的逆序数对
-
             int[] a = { 1, 2, 3, 4, 5, 6 };
-            
-            int[] b = { 3, 1, 4, 2, 6, 7 };
+            PrintArray(a);
+            GetReveseNumber(a);
 
-            Console.ReadKey();
+            int[] b = { 3, 1, 4, 2, 6, 7 };
+            PrintArray(b);
+            GetReveseNumber(b);
+
+            Console.ReadLine();
+
+        }
+
+        private static void GetReveseNumber(int[] b)
+        {
+            Console.WriteLine("逆序分别为： ");
+            for (int i = 0; i < b.Length - 1; i++)
+            {
+                for (int j = i + 1; j < b.Length; j++)
+                {
+                    if (b[i] > b[j])
+                    {
+                        Console.WriteLine(" ( " + b[i] + " , " + b[j] + " ) ");
+                    }
+                }
+            }
+            Console.WriteLine();
+        }
+
+        private static void PrintArray(int[] a)
+        {
+            Console.WriteLine("排列顺序为： ");
+            for (int i = 0; i < a.Length; i++)
+            {
+                Console.Write(a[i] + " ");
+            }
+            Console.WriteLine();
         }
     }
 }
