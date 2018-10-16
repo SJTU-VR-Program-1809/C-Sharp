@@ -11,7 +11,7 @@ namespace CSharp
             int[] a = { 1, 2, 3, 4, 5, 6 };
             
             int[] b = { 3, 1, 4, 2, 6, 7 };
-
+            Console.WriteLine("zqx");
             Console.ReadKey();
         }
     }
