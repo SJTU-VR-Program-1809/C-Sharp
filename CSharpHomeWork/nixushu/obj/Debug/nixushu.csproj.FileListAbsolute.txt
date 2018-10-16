@@ -1,0 +1,6 @@
+D:\SJTU-VR-Program-1809\CSharp\CSharpHomeWork\nixushu\bin\Debug\nixushu.exe.config
+D:\SJTU-VR-Program-1809\CSharp\CSharpHomeWork\nixushu\bin\Debug\nixushu.exe
+D:\SJTU-VR-Program-1809\CSharp\CSharpHomeWork\nixushu\bin\Debug\nixushu.pdb
+D:\SJTU-VR-Program-1809\CSharp\CSharpHomeWork\nixushu\obj\Debug\nixushu.csproj.CoreCompileInputs.cache
+D:\SJTU-VR-Program-1809\CSharp\CSharpHomeWork\nixushu\obj\Debug\nixushu.exe
+D:\SJTU-VR-Program-1809\CSharp\CSharpHomeWork\nixushu\obj\Debug\nixushu.pdb
