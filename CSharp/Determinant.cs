@@ -10,6 +10,7 @@ namespace Test2
     {
         float[,] det;
         int n;
+        float D;
 
         public void SetDet(float[,] d)
         {
@@ -75,10 +76,11 @@ namespace Test2
                     rank[n - (i - index1)] = temp;
                 }
                 result += ComputeItem(rank); //add every sort
-
+                
                 if (IsCompleteSort(rank)) //if it's the last sort,break loop
                     break;
             }
+            D = result;
             return result;
         }
 
