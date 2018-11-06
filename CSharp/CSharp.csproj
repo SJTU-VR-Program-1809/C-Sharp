@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Homework_01.cs" />
     <Compile Include="Homework_02.cs" />
+    <Compile Include="Homework_03\DoubleLinkList.cs" />
     <Compile Include="Homework_03\Homework_03.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Homework_03\SingleLinkList.cs" />

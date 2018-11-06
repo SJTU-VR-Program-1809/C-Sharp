@@ -6,24 +6,26 @@ using System.Threading.Tasks;
 
 namespace MyLinkList
 {
-    class SingleLinkList
+    class DoubleLinkList
     {
         private Node head;
+        private Node tail;
         public int Size { get; private set; }
         public class Node
         {
             public int Data { get; set; }
             public Node next;
-            //public Node front;
+            public Node rear;
             public Node(int _data)
             {
                 this.Data = _data;
             }
         }
-        public SingleLinkList(params int[] nums)
+        public DoubleLinkList(params int[] nums)
         {
             Node cur = null;
             Node next = null;
+            Node rear = null;
             for (int i = 0; i < nums.Length; i++)
             {
                 if (next == null)
@@ -33,6 +35,7 @@ namespace MyLinkList
                 }
                 else
                 {
+                    rear = cur;
                     cur = next;
                 }
                 if (i + 1 < nums.Length)
@@ -44,43 +47,56 @@ namespace MyLinkList
                     next = null;
                 }
                 cur.next = next;
+                cur.rear = rear;
             }
             Size = nums.Length;
+            tail = cur;
         }
 
         //if x is null,insert d as first node
         public Node InsertBefore(Node x, int d)
         {
             Node newNode = new Node(d);
-            Node prev = FindPrevious(x);
-            if (x == null || prev == null)
+            Node rear = x.rear;
+            if (x == null || rear == null)
             {
                 newNode.next = head;
+                newNode.rear = null;
+                head.rear = newNode;
                 head = newNode;
             }
             else
             {
-                newNode.next = prev.next;
-                prev.next = newNode;
+                newNode.next = x;
+                newNode.rear = x.rear;
+                x.rear.next = newNode;
+                x.rear = newNode;
             }
             Size += 1;
             return newNode;
         }
         public Node InsertAfter(Node x, int d)
         {
-            Node newNode = new Node(d);
             if (x == null)
             {
-                newNode.next = head;
-                head = newNode;
+                return InsertBefore(head, d);
             }
             else
             {
-                newNode.next = x.next;
-                x.next = newNode;
+                Node newNode = new Node(d);
+                Size += 1;
+                if (x==tail)
+                {
+                    x.next = newNode;
+                    newNode.rear = x;
+                    newNode.next = null;
+                    return newNode;
+                }
+                else
+                {
+                    return InsertBefore(x.next, d);
+                }
             }
-            Size += 1;
-            return newNode;
         }
         public Node Find(int d)
         {
@@ -97,35 +113,27 @@ namespace MyLinkList
             }
         }
 
-        public Node FindPrevious(Node x)
-        {
-            Node prev = null;
-            Node cur = head;
-            while (true)
-            {
-                if (cur == x)
-                    return prev;
-                if (cur.next == null)
-                    return null;
-                prev = cur;
-                cur = cur.next;
-            }
-        }
-
         public void Delete(Node x)
         {
             if (x == null)
                 return;
-            if(x==head)
-            {
-                head = x.next;
-            }
-            else
-            {
-                Node prev = FindPrevious(x);
-                prev.next = x.next;
-            }
             Size -= 1;
+            if (x==head)
+            {
+                head = head.next;
+                head.rear = null;
+                return;
+            }
+            if(x==tail)
+            {
+                tail = tail.rear;
+                tail.next = null;
+                return;
+            }
+            x.rear.next = x.next;
+            x.next.rear = x.rear;
+            x.next = null;
+            x.rear = null;
         }
         //remove add nodes contains d
         public void Delete(int d)
@@ -151,7 +159,7 @@ namespace MyLinkList
             {
                 if (next != null)
                 {
-                    Console.Write($"{cur.Data}->");
+                    Console.Write($"{cur.Data}<->");
                     cur = next;
                     next = next.next;
                 }
@@ -164,20 +172,53 @@ namespace MyLinkList
             Console.WriteLine();
         }
 
-        public void Reverse()
+        /// <summary>
+        /// Use this for test!!!
+        /// Test whether the DoubleLinkList is correctly builded!!!
+        /// </summary>
+        public void DisplayReverse()
         {
-            Node prev = null;
-            Node temp = head;
+            Node cur = tail;
+            Node next = tail.rear;
             while (true)
             {
-                if (head.next == null)
+                if (next != null)
+                {
+                    Console.Write($"{cur.Data}->");
+                    cur = next;
+                    next = next.rear;
+                }
+                else
+                {
                     break;
-                head = head.next;
-                temp.next = prev;
-                prev = temp;
-                temp = head;
+                }
             }
-            temp.next = prev;
+            Console.Write($"{cur.Data}");
+            Console.WriteLine();
+        }
+
+        public void Reverse()
+        {
+            Node cur = head;
+            Node next = head.next;
+            cur.next = null;
+            cur.rear = next;
+            cur = next;
+            next = next.next;
+            while (true)
+            {
+                if (next == null)
+                    break;
+                cur.next = cur.rear;
+                cur.rear = next;
+                cur = next;
+                next = next.next;
+            }
+            cur.next = cur.rear;
+            cur.rear = null;
+            cur = head;
+            head = tail;
+            tail = cur;
         }
     }
 }
