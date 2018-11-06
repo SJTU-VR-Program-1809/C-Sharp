@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Project1
+namespace CSharp
 {
-    class Program
+    class Homework_02
     {
 
         static void Main()
