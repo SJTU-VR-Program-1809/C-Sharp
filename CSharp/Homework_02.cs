@@ -10,26 +10,26 @@ namespace CSharp
     class Homework_02
     {
 
-        static void Main()
-        {
-            //Use web:https://matrix.reshish.com/determinant.php for test!!!
-            //result is -11
-            //double[,] element = { { 2, 0, 1 }, { 0, 1, 3 }, { 3, 2, 2 } };                            
-            //result is 2
-            //double[,] element = { { 1, 2, 3 }, { 4, 0, 5 }, { 1, 0, 1 } };                           
-            //result is 0
-            //double[,] element = { { 1, 1, 1, 1 }, { 1, 2, 4, 3 }, { 4, 3, 2, 1 }, { 6, 5, 4, 3 } };   
-            //result is -571.87863892
-            double[,] element = { { 1.3, 1.2, 1.1, 0.1, 0.2 }, { -0.2, -0.9, 1.1, 0, 2 }, { -0.1, -0.9, 1.4, 4.4, 2.2 }, { 2.1, 7, 2.1, 4, 2.22 }, { 1.012, 2.2, 9.21, 0.98, 0.1 } };
+        //static void Main()
+        //{
+        //    //Use web:https://matrix.reshish.com/determinant.php for test!!!
+        //    //result is -11
+        //    //double[,] element = { { 2, 0, 1 }, { 0, 1, 3 }, { 3, 2, 2 } };                            
+        //    //result is 2
+        //    //double[,] element = { { 1, 2, 3 }, { 4, 0, 5 }, { 1, 0, 1 } };                           
+        //    //result is 0
+        //    //double[,] element = { { 1, 1, 1, 1 }, { 1, 2, 4, 3 }, { 4, 3, 2, 1 }, { 6, 5, 4, 3 } };   
+        //    //result is -571.87863892
+        //    double[,] element = { { 1.3, 1.2, 1.1, 0.1, 0.2 }, { -0.2, -0.9, 1.1, 0, 2 }, { -0.1, -0.9, 1.4, 4.4, 2.2 }, { 2.1, 7, 2.1, 4, 2.22 }, { 1.012, 2.2, 9.21, 0.98, 0.1 } };
 
-            Determinant deter = new Determinant(element);
+        //    Determinant deter = new Determinant(element);
 
-            deter.Print();
+        //    deter.Print();
 
-            Console.WriteLine(string.Format("Rank:{0}",deter.Rank));
+        //    Console.WriteLine(string.Format("Rank:{0}",deter.Rank));
 
-            Console.WriteLine(string.Format("deter scalar value:{0}", deter.Compute()));
-        }
+        //    Console.WriteLine(string.Format("deter scalar value:{0}", deter.Compute()));
+        //}
     }
 
     class Determinant
