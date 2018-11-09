@@ -4,104 +4,222 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Determinant
+namespace NodeProgram
 {
-    class determinant
+    class Node<T>//T for which type
     {
-        private List<int[]> D = new List<int[]>(); //Storage determinant
-        public void Create() //Determinant assignment
+        public T data;
+        public Node<T> next = null;
+        public Node()
+        { }
+        public Node(T i)
         {
-            D.Clear();
-            D.Add(new int[] { 2, 1,-5, 7,2});
-            D.Add(new int[] { 8,-3, 0, 8,3});
-            D.Add(new int[] { 5, 0,-3, 9,4});
-            D.Add(new int[] { 2, 0, 0, 9,5});
-            D.Add(new int[] { 1, 0, 0, 0,6});
+            this.data = i;
+        }
+    }
+    class LinkList<T>
+    {
+        private Node<T> head;
+        public LinkList()
+        {
+            head = null;
+        }
+
+        public int count()//a count for linklist
+        {
+            Node<T> p = head;
+            int count = 0;
+            while (p != null)
+            {
+                count++;
+                p = p.next;
+            }
+            return count;
+        }
+        /// <summary>
+        /// get a node
+        /// </summary>
+        /// <param name="i">i node</param>
+        /// <returns></returns>
+        public T GetItem(int i)
+        {
+            Node<T> p = head;
+            int k = 0;
+            if (i > count() || i < 0)
+            {
+                Console.WriteLine("i is null");
+            }
+            while (k < i)
+            {
+                k++;
+                p = p.next;
+            }
+            return p.data;
+        }
+        /// <summary>
+        /// Insert
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="i"></param>
+        public void Insert(T e, int i)
+        {
+            Node<T> p = new Node<T>(e);
+            Node<T> q = head;
+            int k = 0;
+            if (i == 0)
+            {
+                p.next = head;
+                head = p;
+                return;
+            }
+            while (k < i - 1)
+            {
+                k++;
+                q = q.next;
+            }
+            p.next = q.next;
+            q.next = p;
+        }
+        /// <summary>
+        /// Add
+        /// </summary>
+        /// <param name="i"></param>
+        public void Add(T i)
+        {
+            Node<T> p = new Node<T>(i);//insert node
+            Node<T> q = new Node<T>();
+            //if head==null ,the head is p
+            if (head == null)
+            {
+                head = p;
+                return;
+            }
+            #region if head!=null,get the last node
+            q = head;
+            while (q.next != null)
+            {
+                q = q.next;
+            }
+            q.next = p;
+            #endregion 
 
         }
-        public int Get(int index_x, int index_y) //Get elements of line X-1, column Y-1
+        /// <summary>
+        /// Remove
+        /// </summary>
+        /// <param name="i"></param>
+        public void RemoveAt(int i)
         {
-            return D[index_x - 1][index_y - 1];
-        }
-        public int GetCount() //Get the number of determinant rows (columns)
-        {
-            return D.Count;
-        }
-        public void Display(double Dvalue) //Console formatting display determinant
-        {
-            for (int i = 0; i < D.Count; i++)
+            Node<T> p = head;
+            int k = 0;
+            if (i > count() || i < 0)
             {
-                Console.Write("|");
-                for (int j = 0; j < D[i].Length; j++)
-                {
-                    Console.Write(j == D[i].Length - 1 ? (D[i][j]).ToString() : (D[i][j] + ",").ToString());
-                }
-                Console.Write("|");
-                if (D.Count % 2 == 0)
-                {
-                    if (i == D.Count / 2 - 1)
-                    {
-                        Console.Write("=" + Dvalue);
-                    }
-                }
-                else if (i == (D.Count - 1) / 2)
-                {
-                    Console.Write("=" + Dvalue);
-                }
-                Console.WriteLine();
+                Console.WriteLine("Error");
+            }
+            if (i == 0)
+            {
+                head.next = head.next.next;
+                return;
+            }
+            while (k < i - 1)
+            {
+                k++;
+                p = p.next;
+            }
+            p.next = p.next.next;
+        }
+      
+
+        /// <summary>
+        /// isEmpty
+        /// </summary>
+        /// <returns></returns>
+        public bool Empty()
+        {
+            return head == null ? true : false;
+        }
+        /// <summary>
+        /// clear
+        /// </summary>
+        public void Clear()
+        {
+            head = null;
+        }
+
+        public void ToArrary()
+        {
+            T[] arr = new T[count()];
+            Node<T> p = head;
+            int i = 0;
+            while (p != null)
+            {
+                arr[i++] = p.data;
+                p = p.next;
+            }
+            for (int j = 0; j < count(); j++)
+            {
+                Console.Write(arr[j] + " ");
             }
         }
-        public  double GetHls(determinant D) //A determinant data is passed in, and its value is calculated and returned.
+
+        /// <summary>
+        /// remove a node which you chose
+        /// </summary>
+        /// <param name="e"></param>
+        public void Remove(T e)
         {
-            int[] arr = CollSet(D.GetCount());
-            List<int[]> list = new List<int[]>();
-            FullArray(list, arr, 0);
-            double sum = 0;
-            for (int cn = 1; cn <= list.Count; cn++)
+            if (head.data.Equals(e))
             {
-                double xg = 1;
-                for (int i = 1; i <= D.GetCount(); i++)
+                head = head.next;
+            }
+            Node<T> p = head;
+            while (p.next.next != null)
+            {
+                if (p.next.data.Equals(e))
                 {
-                    xg *= D.Get(i, list[cn - 1][i - 1]);
+                    p.next = p.next.next;
+                    continue;
                 }
-                sum += Math.Pow(-1, N(list[cn - 1])) * xg;
+                p = p.next;
             }
-            return sum;
-        }
-
-        public  int[] CollSet(int num) //Generating continuous number arrangement
-        {
-            int[] result = new int[num];
-            for (int i = 0; i < num; i++) result[i] = i + 1;
-            return result;
-        }
-
-        public  int N(int[] arr) //Inverse number calculation
-        {
-            int N = 0;
-            for (int i = 1; i < arr.Length; i++) for (int j = 0; j < i; j++) if (arr[j] > arr[i]) N++;
-            return N;
-        }
-
-        public  void FullArray(List<int[]> list, int[] arr, int k) //Full Permutation generation
-        {
-            if (k == arr.Length)
+            if (p.next.data.Equals(e))
             {
-                int[] cp_arr = new int[arr.Length];
-                for (int i = 0; i < arr.Length; i++) cp_arr[i] = arr[i];
-                list.Add(cp_arr);
-            }
-            else
-            {
-                for (int i = k; i < arr.Length; i++)
-                {
-                    { int t = arr[k]; arr[k] = arr[i]; arr[i] = t; }
-                    FullArray(list, arr, k + 1);
-                    { int t = arr[k]; arr[k] = arr[i]; arr[i] = t; }
-                }
+                p.next = null;
             }
         }
-
-
+        /// <summary>
+        /// Reverse
+        /// </summary>
+        public void Reverse()
+        {
+            Node<T> p = head;
+            Node<T> q = p;
+            Node<T> newHead = head;
+            p = p.next;
+            newHead.next = null;
+            while (p.next != null)
+            {
+                q = p;
+                p = p.next;
+                q.next = newHead;
+                newHead = q;
+            }
+            q = p;
+            q.next = newHead;
+            newHead = q;
+            head = newHead;
+        }
+        /// <summary>
+        /// print
+        /// </summary>
+        public void PrintLinkList()
+        {
+            Node<T> p = head;
+            while (p != null)
+            {
+                Console.Write(p.data + " ");
+                p = p.next;
+            }
+        }
     }
 }

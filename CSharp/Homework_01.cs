@@ -4,16 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Determinant
+namespace NodeProgram
 {
     class Program
     {
         static void Main(string[] args)
         {
-            determinant  D = new determinant(); //Creating determinant classes
-            D.Create(); 	   
-            D.Display(D.GetHls(D)); //Console formatting display determinant and its value
-            Console.ReadKey();
+            LinkList<int> linkList = new LinkList<int>();
+            for (int i = 0; i < 7; i++)
+            {
+                linkList.Add(i);
+            }
+            linkList.PrintLinkList();
+            Console.WriteLine(" ");
+            linkList.ToArrary();
+            Console.WriteLine("");
+            linkList.RemoveAt(4);
+            linkList.PrintLinkList();
+            Console.WriteLine(" ");
+            linkList.Insert(10, 3);
+            linkList.PrintLinkList();
+            Console.WriteLine(" ");
+            linkList.Reverse();
+            linkList.PrintLinkList();
+            Console.WriteLine("");
+            Console.WriteLine(linkList.GetItem(4));
         }
     }
 }
