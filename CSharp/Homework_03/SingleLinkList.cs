@@ -8,42 +8,28 @@ namespace MyLinkList
 {
     class SingleLinkList
     {
-        private Node head;
+        private Node head = null;
         public int Size { get; private set; }
         public class Node
         {
             public int Data { get; set; }
             public Node next;
-            //public Node front;
             public Node(int _data)
             {
                 this.Data = _data;
             }
         }
+        private SingleLinkList() { }
         public SingleLinkList(params int[] nums)
         {
-            Node cur = null;
+            Node cur = new Node(nums[0]);
             Node next = null;
-            for (int i = 0; i < nums.Length; i++)
+            head = cur;
+            for (int i = 1; i < nums.Length; i++)
             {
-                if (next == null)
-                {
-                    cur = new Node(nums[i]);
-                    head = cur;
-                }
-                else
-                {
-                    cur = next;
-                }
-                if (i + 1 < nums.Length)
-                {
-                    next = new Node(nums[i + 1]);
-                }
-                else
-                {
-                    next = null;
-                }
+                next = new Node(nums[i]);
                 cur.next = next;
+                cur = next;
             }
             Size = nums.Length;
         }
@@ -51,133 +37,132 @@ namespace MyLinkList
         //if x is null,insert d as first node
         public Node InsertBefore(Node x, int d)
         {
-            Node newNode = new Node(d);
+            Size += 1;
             Node prev = FindPrevious(x);
             if (x == null || prev == null)
             {
-                newNode.next = head;
-                head = newNode;
+                return InsertBeforeHead(d);
             }
             else
             {
+                Node newNode = new Node(d);
                 newNode.next = prev.next;
                 prev.next = newNode;
+                return newNode;
             }
-            Size += 1;
-            return newNode;
         }
         public Node InsertAfter(Node x, int d)
         {
-            Node newNode = new Node(d);
-            if (x == null)
+            if(x==null)
             {
-                newNode.next = head;
-                head = newNode;
+                Size += 1;
+                return InsertBeforeHead(d);
             }
-            else
+            if(x.next==null)
             {
-                newNode.next = x.next;
+                Size += 1;
+                Node newNode = new Node(d);
                 x.next = newNode;
+                return newNode;
             }
-            Size += 1;
+            return InsertBefore(x.next, d);
+        }
+        private Node InsertBeforeHead(int d)
+        {
+            Node newNode = new Node(d);
+            newNode.next = head;
+            head = newNode;
             return newNode;
         }
         public Node Find(int d)
         {
             Node cur = head;
-            Node next = head.next;
-            while (true)
+            while (cur != null)
             {
                 if (cur.Data == d)
                     return cur;
-                if (next == null)
-                    return null;
-                cur = next;
-                next = next.next;
+                cur = cur.next;
             }
+            return null;
         }
-
+        private Node Find(Node startNode, int d)
+        {
+            Node cur = startNode;
+            while (cur != null)
+            {
+                if (cur.Data == d)
+                    return cur;
+                cur = cur.next;
+            }
+            return null;
+        }
         public Node FindPrevious(Node x)
         {
             Node prev = null;
             Node cur = head;
-            while (true)
+            while (cur != null)
             {
                 if (cur == x)
                     return prev;
-                if (cur.next == null)
-                    return null;
                 prev = cur;
                 cur = cur.next;
             }
+            return null;
         }
 
         public void Delete(Node x)
         {
             if (x == null)
                 return;
-            if(x==head)
+            if (x == head)
             {
                 head = x.next;
             }
             else
             {
                 Node prev = FindPrevious(x);
-                prev.next = x.next;
+                if (prev != null)
+                    prev.next = x.next;
+                else
+                    return;
             }
             Size -= 1;
         }
         //remove add nodes contains d
         public void Delete(int d)
         {
-            Node deletaNode = null;
-            int deleteCount = 0;
-            while (true)
+            Node deletaNode = Find(head, d);
+            while (deletaNode != null)
             {
-                deletaNode = Find(d);
-                if (deletaNode == null)
-                    break;
-                deleteCount++;
                 Delete(deletaNode);
+                deletaNode = Find(deletaNode.next, d);
             }
-            Size -= deleteCount;
         }
 
         public void Display()
         {
+            Console.Write($"LinkList Size:{Size}\t\t");
             Node cur = head;
-            Node next = head.next;
-            while (true)
+            while (cur != null)
             {
-                if (next != null)
-                {
-                    Console.Write($"{cur.Data}->");
-                    cur = next;
-                    next = next.next;
-                }
-                else
-                {
-                    break;
-                }
+                Console.Write($"{cur.Data}->");
+                cur = cur.next;
             }
-            Console.Write($"{cur.Data}");
             Console.WriteLine();
         }
 
         public void Reverse()
         {
             Node prev = null;
-            Node temp = head;
-            while (true)
+            Node cur = head;
+            while (head.next != null)
             {
-                if (head.next == null)
-                    break;
                 head = head.next;
-                temp.next = prev;
-                prev = temp;
-                temp = head;
+                cur.next = prev;
+                prev = cur;
+                cur = head;
             }
-            temp.next = prev;
+            cur.next = prev;
         }
     }
 }
